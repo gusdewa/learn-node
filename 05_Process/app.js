@@ -1,4 +1,7 @@
 console.log('Starting App');
 
-const [node, app, ...args] = process.argv;
-console.log(args);
+const yargs = require('yargs');
+
+const { argv } = yargs;
+console.log(argv);
+console.log(`Commands: ${argv._}`);
