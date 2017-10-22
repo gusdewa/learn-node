@@ -14,19 +14,14 @@ const { argv } = require('yargs')
   .alias('help', 'h');
 
 const { address } = argv;
-geocode.geocodeAddress(address, (error, results) => {
-  if (error) {
-    console.log(error);
-  } else {
-    const { latitude, longitude } = results;
-    weather.getWeather(latitude, longitude, (error, weatherData) => {
-      if (error) {
-        console.log(JSON.stringify(error, undefined, 2));        
-      } else {
-        console.log(JSON.stringify(weatherData, undefined, 2));        
-      }
-    });    
-  }
-});
+
+geocode.getAddress(address)
+  .then(({ latitude, longitude }) => weather.getWeather(latitude, longitude))
+  .then((weatherData) => {
+    console.log(JSON.stringify(weatherData, undefined, 2));
+  })
+  .catch((error) => {
+    console.log(JSON.stringify(error, undefined, 2));        
+  });
 
 // 
